@@ -2,11 +2,9 @@ package br.com.alura.livraria.bean;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import br.com.dao.dao_lib.jsf.annotation.SessionModel;
 
-@Named
-@SessionScoped
+@SessionModel
 public class TemaBean implements Serializable {
 
 	private static final long serialVersionUID = 3740536135286026768L;
@@ -14,11 +12,7 @@ public class TemaBean implements Serializable {
 	private String tema = "vader";
 
 	public String getTema() {
-		return tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
+		return this.tema;
 	}
 
 	public String[] getTemas() {
@@ -27,6 +21,10 @@ public class TemaBean implements Serializable {
 				"excite-bike", "flick", "glass-x", "home", "hot-sneaks", "humanity", "le-frog", "midnight", "mint-choc",
 				"overcast", "pepper-grinder", "redmond", "rocket", "sam", "smoothness", "south-street", "start",
 				"sunny", "swanky-purse", "trontastic", "ui-darkness", "ui-lightness", "vader" };
+	}
+
+	public void setTema(String tema) {
+		this.tema = tema;
 	}
 
 }

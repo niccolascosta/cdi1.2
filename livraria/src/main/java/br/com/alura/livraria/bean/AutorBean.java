@@ -3,72 +3,71 @@ package br.com.alura.livraria.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import br.com.alura.livraria.modelo.Autor;
 import br.com.dao.dao_lib.dao.DAO;
+import br.com.dao.dao_lib.tx.annotation.Transacional;
 
-
-
-@Named
-@RequestScoped
-public class AutorBean implements Serializable{
+@Model
+public class AutorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Autor autor = new Autor();
-	
+
 	private Integer autorId;
-	
-	private DAO<Autor> autorDao;
-	
+
+	private final DAO<Autor, Integer> autorDao;
+
 	@Inject
-	public AutorBean(DAO<Autor> dao) {
+	public AutorBean(DAO<Autor, Integer> dao) {
 		this.autorDao = dao;
 	}
 
-	public Integer getAutorId() {
-		return autorId;
-	}
-
-	public void setAutorId(Integer autorId) {
-		this.autorId = autorId;
-	}
-	
 	public void carregarAutorPelaId() {
-		this.autor = autorDao.buscaPorId(autorId);
+		this.autor = this.autorDao.buscaPorId(this.autorId);
 	}
 
+	public Autor getAutor() {
+		return this.autor;
+	}
+
+	public List<Autor> getAutores() {
+		return this.autorDao.listaTodos();
+	}
+
+	public Integer getAutorId() {
+		return this.autorId;
+	}
+
+	@Transacional
 	public String gravar() {
 		System.out.println("Gravando autor " + this.autor.getNome());
 
-		if(this.autor.getId() == null) {
-			autorDao.adiciona(this.autor);
+		if (this.autor.getId() == null) {
+			this.autorDao.adiciona(this.autor);
 		} else {
-			autorDao.atualiza(this.autor);
+			this.autorDao.atualiza(this.autor);
 		}
 
 		this.autor = new Autor();
 
 		return "livro?faces-redirect=true";
 	}
-	
+
+	@Transacional
 	public void remover(Autor autor) {
 		System.out.println("Removendo autor " + autor.getNome());
-		autorDao.remove(autor);
-	}
-	
-	public List<Autor> getAutores() {
-		return autorDao.listaTodos();
-	}
-	
-	public Autor getAutor() {
-		return autor;
+		this.autorDao.remove(autor);
 	}
 
 	public void setAutor(Autor autor) {
 		this.autor = autor;
+	}
+
+	public void setAutorId(Integer autorId) {
+		this.autorId = autorId;
 	}
 }

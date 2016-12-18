@@ -1,0 +1,31 @@
+@Specializes
+Quando indicamos ao CDI que determinada classe é uma especialização de outra, 
+o CDI passa a usar a especialização no lugar da anterior.
+
+@Alternative
+Usar a anotação @Alternative também é uma forma de lidar com ambiguidade, 
+pois um bean alternativo tem mais prioridade do que um bean não alternativo. 
+Assim podemos ter dois beans com o mesmo tipo e um deles ser alternativo e não teremos ambiguidade.
+
+@Qualifier
+Geralmente criamos um qualificador para distinguir dois beans do mesmo tipo.
+
+@Typed
+Quando criamos uma class e essa por sua vez herda de outra classe, 
+temos um bean que pode responder por mais de uma classes 
+(ela mesmo, todas as supers classes dela na hierarquia até java.lang.Object).
+Usando @Typed podemos restringir à quais classe ela vai responder.
+
+Eventos e o Padrão Observer
+
+Informar os qualificadores do evento que queremos tratar, caso exista.
+Caso o objeto informado disparado como evento tenha qualificadores, 
+podemos tratar esse evento de acordo com o seu qualificador. 
+No caso de não informar os qualificadores todos os eventos disparados para esse objeto serão tratados.
+
+Criar um método que receba um evento e anotar esse evento com @Observes
+Para que possamos tratar o evento, precisamos de um método que receba como parâmetro o objeto que queremos observar. 
+Esse parâmetro precisa estar anotado com @Observes.
+
+Disparar um evento passando um objeto.
+Devemos usar a interface Event ou BeanManager para disparar um evento passando o objeto que queremos observar.
